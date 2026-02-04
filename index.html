@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 주변 소화전 찾기</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="config.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>내 주변 소화전 찾기</h1>
+            <p id="instruction-text">내 위치에서 가장 가까운 소화전 3곳을 찾아드립니다.</p>
+        </header>
+
+        <div id="map"></div>
+
+        <button id="find-btn" onclick="findNearest()">내 위치에서 찾기</button>
+
+        <div id="results-container">
+            <ul id="hydrant-list"></ul>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
