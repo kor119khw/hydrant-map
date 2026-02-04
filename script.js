@@ -43,46 +43,43 @@ async function loadData() {
     }
 }
 
-function findNearest() {
+function requestLocation() {
     const btn = document.getElementById('find-btn');
     btn.disabled = true;
     btn.textContent = '위치 확인 중...';
 
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            async (position) => {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
+    navigator.geolocation.getCurrentPosition(
+        (pos) => {
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+            findNearest(lat, lng);
+        },
+        () => {
+            alert("위치 권한을 허용해주세요.");
+            btn.disabled = false;
+            btn.textContent = '내 위치에서 찾기';
+        }
+    );
+}
 
-                // Show user location
-                showUserLocation(lat, lon);
+async function findNearest(lat, lon) {
+    const btn = document.getElementById('find-btn');
 
-                // Load data if not loaded
-                if (allHydrants.length === 0) {
-                    btn.textContent = '데이터 로딩 중...';
-                    await loadData();
-                }
+    // Show user location
+    showUserLocation(lat, lon);
 
-                if (allHydrants.length > 0) {
-                    calculateAndRender(lat, lon);
-                }
-
-                btn.textContent = '내 위치에서 찾기';
-                btn.disabled = false;
-            },
-            (error) => {
-                console.error(error);
-                let msg = '위치 정보를 가져올 수 없습니다.';
-                if (error.code === 1) msg = '위치 정보 제공을 허용해주세요.';
-                alert(msg);
-                btn.textContent = '내 위치에서 찾기';
-                btn.disabled = false;
-            }
-        );
-    } else {
-        alert('이 브라우저에서는 위치 기반 서비스를 사용할 수 없습니다.');
-        btn.disabled = false;
+    // Load data if not loaded
+    if (allHydrants.length === 0) {
+        btn.textContent = '데이터 로딩 중...';
+        await loadData();
     }
+
+    if (allHydrants.length > 0) {
+        calculateAndRender(lat, lon);
+    }
+
+    btn.textContent = '내 위치에서 찾기';
+    btn.disabled = false;
 }
 
 function showUserLocation(lat, lon) {
