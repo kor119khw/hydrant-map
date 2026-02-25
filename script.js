@@ -19,9 +19,11 @@ const BTN_TEXT_DEFAULT = '내 위치에서 찾기';
 
 /** ====== Initialize map on load ====== */
 window.onload = function () {
-  loadKakaoSDK();
-};
+    const btn = document.getElementById('find-btn');
+    if (btn) btn.addEventListener('click', requestLocation);
 
+    loadKakaoSDK();
+};
 function setStatus(message, { alertUser = false } = {}) {
   // 필요하면 index.html에 status 영역을 추가할 수도 있지만,
   // 최소 수정으로는 alert/console에만 표시
@@ -285,3 +287,4 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
 function deg2rad(deg) {
   return deg * (Math.PI / 180);
 }
+
